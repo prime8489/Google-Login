@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Google Login</title>
+
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background: #f2f2f2;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #357ae8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Login with Google</h1>
+  <button onclick="googleLogin()">Sign in with Google</button>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAoPmx7kOSe9u6QhLhuzcKl1XRcjDATnF0",
+      authDomain: "login-99d30.firebaseapp.com",
+      projectId: "login-99d30",
+      storageBucket: "login-99d30.firebasestorage.app",
+      messagingSenderId: "539402706130",
+      appId: "1:539402706130:web:d0a5fe5259970a29e3610b"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          localStorage.setItem("user", JSON.stringify({
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL
+          }));
+          window.location.href = "home.html";
+        })
+        .catch(error => {
+          alert("Login failed: " + error.message);
+        });
+    }
+  </script>
+
+</body>
+</html>
